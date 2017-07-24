@@ -37,6 +37,7 @@
 #include "DWSapiEmbedding.hpp"
 
 using namespace xacc::quantum;
+using namespace xacc::dwsapi;
 
 BOOST_AUTO_TEST_CASE(checkReduction) {
 	auto problem = std::make_shared<xacc::quantum::CompleteGraph>(5);

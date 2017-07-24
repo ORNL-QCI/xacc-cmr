@@ -1,17 +1,21 @@
 #include "DWSapiEmbedding.hpp"
 #include "dwave_sapi.h"
 
-std::map<int, std::list<int>> DWSapiEmbedding::embed(std::shared_ptr<xacc::quantum::DWGraph> problem,
+
+namespace xacc {
+namespace dwsapi {
+
+xacc::quantum::Embedding DWSapiEmbedding::embed(std::shared_ptr<xacc::quantum::DWGraph> problem,
 			std::shared_ptr<xacc::AcceleratorGraph> hardware,
 			std::map<std::string, std::string> params) {
 
-	std::map<int, std::list<int>> embedding;
+	xacc::quantum::Embedding embedding;
 	auto probN = problem->order();
 	auto hardN = hardware->order();
 
 	std::vector<sapi_ProblemEntry> probEntries, hardEntries;
 	for (int i = 0; i < probN; i++) {
-		embedding.insert(std::make_pair(i, std::list<int>{}));
+		embedding.insert(std::make_pair(i, std::vector<int>{}));
 		for (int j = 0; j < probN; j++) {
 			if (i < j && problem->edgeExists(i, j)) {
 				probEntries.push_back( { i, j, 1.0 });
@@ -48,4 +52,5 @@ std::map<int, std::list<int>> DWSapiEmbedding::embed(std::shared_ptr<xacc::quant
 
 xacc::quantum::RegisterEmbeddingAlgorithm<DWSapiEmbedding> DWSAPITEMP("dw-sapi");
 
-
+}
+}
