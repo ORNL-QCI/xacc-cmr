@@ -15,13 +15,14 @@ public:
 			std::map<std::string, std::string> params = std::map<std::string,
 					std::string>());
 
-	/**
-	 * Return the name of this Embedding Algorithm
-	 * @return
-	 */
-	virtual std::string name() {
+	virtual const std::string name() const {
 		return "dw-sapi";
 	}
+
+	virtual const std::string description() const {
+		return "An EmbeddingAlgorithm wrapping the D-Wave SAPI find_embedding function.";
+	}
+
 };
 
 }

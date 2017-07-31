@@ -50,7 +50,5 @@ xacc::quantum::Embedding DWSapiEmbedding::embed(std::shared_ptr<xacc::quantum::D
 
 }
 
-xacc::quantum::RegisterEmbeddingAlgorithm<DWSapiEmbedding> DWSAPITEMP("dw-sapi");
-
 }
 }

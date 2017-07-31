@@ -1,0 +1,6 @@
+{
+  "bundle.symbolic_name" : "xacc_dwsapi_embedding",
+  "bundle.activator" : true,
+  "bundle.name" : "XACC D-Wave SAPI Minor Graph Embedding",
+  "bundle.description" : "This bundle provides an EmbeddingAlgorithm that wraps DW Sapi."
+}
