@@ -3,6 +3,8 @@ set (PACKAGE_DESCRIPTION "XACC Embedding Algorithm that delegates to D-Wave SAPI
 
 set (LIBRARY_NAME xacc-dwsapi-embedding)
 
+find_package (Boost COMPONENTS system program_options filesystem REQUIRED)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 file (GLOB HEADERS *.hpp)
@@ -13,6 +15,7 @@ usFunctionGetResourceSource(TARGET ${LIBRARY_NAME} OUT SRC)
 # Generate bundle initialization code
 usFunctionGenerateBundleInit(TARGET ${LIBRARY_NAME} OUT SRC)
 
+link_directories(${XACC_LIBRARY_DIR})
 add_library(${LIBRARY_NAME} SHARED ${SRC})
 
 set(_bundle_name xacc_dwsapi_embedding)
@@ -38,14 +41,16 @@ usFunctionEmbedResources(TARGET ${LIBRARY_NAME}
     manifest.json
   )
 
-set (DWAVESAPILIB ${DWSAPI_ROOT}/lib/libdwave_sapi.so)
-
-link_directories(${XACC_LIBRARY_DIRS})
+if (APPLE)
+  set (DWAVESAPILIB ${DWSAPI_ROOT}/lib/libdwave_sapi.dylib)
+else()
+  set (DWAVESAPILIB ${DWSAPI_ROOT}/lib/libdwave_sapi.so)
+endif()
 
 target_link_libraries(${LIBRARY_NAME} ${Boost_LIBRARIES} ${XACC_LIBRARIES} ${DWAVESAPILIB})
 
 install(TARGETS ${LIBRARY_NAME} DESTINATION ${XACC_LIBRARY_DIR}/plugins/embedding)
 
 file (GLOB test_files tests/*.cpp)
-add_tests("${test_files}" "${CMAKE_CURRENT_SOURCE_DIR}" "${Boost_LIBRARIES};${LIBRARY_NAME};pthread;dl")
+add_tests("${test_files}" "${CMAKE_CURRENT_SOURCE_DIR}" "${LIBRARY_NAME};${Boost_LIBRARIES};pthread;dl")
 
