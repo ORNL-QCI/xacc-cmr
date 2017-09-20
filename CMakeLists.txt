@@ -1,7 +1,7 @@
 project(xacc-dwsapi-embedding CXX)
 cmake_minimum_required(VERSION 2.8)
 set(CMAKE_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 
 if(APPLE)
    set(CMAKE_MACOSX_RPATH 1)
