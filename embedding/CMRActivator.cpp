@@ -28,7 +28,7 @@
  *   Initial API and implementation - Alex McCaskey
  *
  **********************************************************************************/
-#include "DWSapiEmbedding.hpp"
+#include "CMREmbedding.hpp"
 
 #include "cppmicroservices/BundleActivator.h"
 #include "cppmicroservices/BundleContext.h"
@@ -43,17 +43,17 @@ namespace {
 
 /**
  */
-class US_ABI_LOCAL DWSapiActivator: public BundleActivator {
+class US_ABI_LOCAL CMRActivator: public BundleActivator {
 
 public:
 
-	DWSapiActivator() {
+	CMRActivator() {
 	}
 
 	/**
 	 */
 	void Start(BundleContext context) {
-		auto emb = std::make_shared<xacc::dwsapi::DWSapiEmbedding>();
+		auto emb = std::make_shared<xacc::cmr::CMREmbedding>();
 		context.RegisterService<xacc::quantum::EmbeddingAlgorithm>(emb);
 	}
 
@@ -66,4 +66,4 @@ public:
 
 }
 
-CPPMICROSERVICES_EXPORT_BUNDLE_ACTIVATOR(DWSapiActivator)
+CPPMICROSERVICES_EXPORT_BUNDLE_ACTIVATOR(CMRActivator)

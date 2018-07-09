@@ -1,0 +1,3 @@
+[submodule "tpls/minorminer"]
+	path = tpls/minorminer
+	url = https://github.com/amccaskey/minorminer

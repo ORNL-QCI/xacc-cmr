@@ -1,9 +1,7 @@
-set (PACKAGE_NAME "XACC D-Wave SAPI Embedding Algorithm")
-set (PACKAGE_DESCRIPTION "XACC Embedding Algorithm that delegates to D-Wave SAPI C library")
+set (PACKAGE_NAME "XACC CMR Embedding Algorithm")
+set (PACKAGE_DESCRIPTION "XACC Embedding Algorithm that delegates to D-Wave MinorMiner")
 
-set (LIBRARY_NAME xacc-dwsapi-embedding)
-
-find_package (Boost COMPONENTS system program_options filesystem REQUIRED)
+set (LIBRARY_NAME xacc-cmr)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -18,7 +16,7 @@ usFunctionGenerateBundleInit(TARGET ${LIBRARY_NAME} OUT SRC)
 link_directories(${XACC_LIBRARY_DIR})
 add_library(${LIBRARY_NAME} SHARED ${SRC})
 
-set(_bundle_name xacc_dwsapi_embedding)
+set(_bundle_name xacc_cmr)
 set_target_properties(${LIBRARY_NAME} PROPERTIES
   # This is required for every bundle
   COMPILE_DEFINITIONS US_BUNDLE_NAME=${_bundle_name}
@@ -41,16 +39,19 @@ usFunctionEmbedResources(TARGET ${LIBRARY_NAME}
     manifest.json
   )
 
-if (APPLE)
-  set (DWAVESAPILIB ${DWSAPI_ROOT}/lib/libdwave_sapi.dylib)
+target_link_libraries(${LIBRARY_NAME} ${XACC_LIBRARIES} minorminer)
+
+if(APPLE)
+   set_target_properties(${LIBRARY_NAME} PROPERTIES INSTALL_RPATH "@loader_path/../lib")
+   set_target_properties(${LIBRARY_NAME} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 else()
-  set (DWAVESAPILIB ${DWSAPI_ROOT}/lib/libdwave_sapi.so)
+   set_target_properties(${LIBRARY_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
+   set_target_properties(${LIBRARY_NAME} PROPERTIES LINK_FLAGS "-shared")
 endif()
 
-target_link_libraries(${LIBRARY_NAME} ${Boost_LIBRARIES} ${XACC_LIBRARIES} ${DWAVESAPILIB})
+install(TARGETS ${LIBRARY_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/plugins)
 
-install(TARGETS ${LIBRARY_NAME} DESTINATION ${XACC_LIBRARY_DIR}/plugins/embedding)
-
-file (GLOB test_files tests/*.cpp)
-add_tests("${test_files}" "${CMAKE_CURRENT_SOURCE_DIR}" "${LIBRARY_NAME};${Boost_LIBRARIES};pthread;dl")
+if(CMR_BUILD_TESTS)
+	add_subdirectory(tests)
+endif()
 

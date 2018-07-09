@@ -28,22 +28,19 @@
  *   Initial API and implementation - Alex McCaskey
  *
  **********************************************************************************/
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE DWSapiEmbeddingTester
-
-#include <boost/test/included/unit_test.hpp>
+#include <gtest/gtest.h>
 #include "DWGraph.hpp"
 #include "XACC.hpp"
-#include "DWSapiEmbedding.hpp"
+#include "CMREmbedding.hpp"
 
 using namespace xacc::quantum;
-using namespace xacc::dwsapi;
+using namespace xacc::cmr;
 
-BOOST_AUTO_TEST_CASE(checkReduction) {
+TEST(CMREmbeddingTester, checkReduction) {
 	auto problem = std::make_shared<xacc::quantum::CompleteGraph>(5);
 	auto k44 = std::make_shared<xacc::quantum::K44Bipartite>();
 
-	auto algo = std::make_shared<DWSapiEmbedding>();
+	auto algo = std::make_shared<CMREmbedding>();
 	auto embedding = algo->embed(problem, k44->getAcceleratorGraph());
 
 	std::cout << "HEY WORLD: \n";
@@ -56,4 +53,7 @@ BOOST_AUTO_TEST_CASE(checkReduction) {
 	}
 }
 
-
+int main(int argc, char** argv) {
+   ::testing::InitGoogleTest(&argc, argv);
+   return RUN_ALL_TESTS();
+}
