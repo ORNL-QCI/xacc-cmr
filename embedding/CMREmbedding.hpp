@@ -1,11 +1,22 @@
 #ifndef EMBEDDING_CMREMBEDDING_HPP_
 #define EMBEDDING_CMREMBEDDING_HPP_
 
+#include "XACC.hpp"
 #include "EmbeddingAlgorithm.hpp"
+#include "find_embedding.hpp"
 
 namespace xacc {
 namespace cmr {
 
+class XACCInteractions : public find_embedding::LocalInteraction {
+  public:
+    bool _canceled = false;
+    void cancel() { _canceled = true; }
+
+  private:
+    virtual void displayOutputImpl(const std::string& mess) const { xacc::info(mess); }
+    virtual bool cancelledImpl() const { return _canceled; }
+};
 
 class CMREmbedding : public xacc::quantum::EmbeddingAlgorithm {
 public:
