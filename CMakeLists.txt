@@ -21,7 +21,7 @@ include(CppMicroServicesConfig)
 
 include_directories(${XACC_INCLUDE_DIRS})
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/tpls/minorminer)
+add_subdirectory(tpls/minorminer)
 
 add_subdirectory(embedding)
 
