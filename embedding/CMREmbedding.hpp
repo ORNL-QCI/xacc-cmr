@@ -21,8 +21,8 @@ class XACCInteractions : public find_embedding::LocalInteraction {
 class CMREmbedding : public xacc::quantum::EmbeddingAlgorithm {
 public:
 
-	virtual xacc::quantum::Embedding embed(std::shared_ptr<xacc::quantum::DWGraph> problem,
-			std::shared_ptr<xacc::AcceleratorGraph> hardware,
+	virtual xacc::quantum::Embedding embed(std::shared_ptr<xacc::Graph> problem,
+			std::shared_ptr<xacc::Graph> hardware,
 			std::map<std::string, std::string> params = std::map<std::string,
 					std::string>());
 

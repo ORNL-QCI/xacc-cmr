@@ -3,8 +3,8 @@
 namespace xacc {
 namespace cmr {
 
-xacc::quantum::Embedding CMREmbedding::embed(std::shared_ptr<xacc::quantum::DWGraph> problem,
-			std::shared_ptr<xacc::AcceleratorGraph> hardware,
+xacc::quantum::Embedding CMREmbedding::embed(std::shared_ptr<xacc::Graph> problem,
+			std::shared_ptr<xacc::Graph> hardware,
 			std::map<std::string, std::string> params) {
 
 	// Local Declarations

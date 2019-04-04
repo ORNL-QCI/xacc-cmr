@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 if(APPLE)
    set(CMAKE_MACOSX_RPATH 1)
 endif()
-   
+
 option(CMR_BUILD_TESTS "Build test programs" OFF)
 
 find_package(XACC REQUIRED)
@@ -21,6 +21,7 @@ include(CppMicroServicesConfig)
 
 include_directories(${XACC_INCLUDE_DIRS})
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-format-security")
 add_subdirectory(tpls/minorminer)
 
 add_subdirectory(embedding)
